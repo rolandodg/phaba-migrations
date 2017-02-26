@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phaba\Migrations\Input;
 
 
@@ -27,5 +29,10 @@ class CommandLineInputImp implements Input
     public function setDefaults()
     {
         $this->cliArguments[0] = 'help';
+    }
+
+    public function getFirstArgument()
+    {
+        return $this->args[0];
     }
 }
