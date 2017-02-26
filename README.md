@@ -2,6 +2,7 @@
 Database migrations manager of Softwarys.
 
 ## Pre-requirements
+ - PHP ^7.1
  - Composer
  
 ## Requirements
