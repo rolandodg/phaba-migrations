@@ -45,4 +45,11 @@ class CommandLineInputImpTest extends TestCase
 
         $this->assertEquals('createTMNT', $commandLineInput->getFirstArgument());
     }
+
+    public function testCanGetFirstArgument(): void
+    {
+        $firstArgument = 'createTMNT';
+        $commandLineInput = new CommandLineInputImp(array('phaba-migration', $firstArgument, '-d'));
+        $this->assertEquals($firstArgument, $commandLineInput->getFirstArgument());
+    }
 }
