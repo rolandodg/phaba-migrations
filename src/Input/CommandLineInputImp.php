@@ -26,12 +26,12 @@ class CommandLineInputImp implements Input
         }
     }
 
-    private function setDefaults()
+    private function setDefaults(): void
     {
         $this->args[0] = 'help';
     }
 
-    public function getFirstArgument()
+    public function getFirstArgument(): string
     {
         return $this->args[0];
     }
