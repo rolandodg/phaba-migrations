@@ -26,9 +26,9 @@ class CommandLineInputImp implements Input
         }
     }
 
-    public function setDefaults()
+    private function setDefaults()
     {
-        $this->cliArguments[0] = 'help';
+        $this->args[0] = 'help';
     }
 
     public function getFirstArgument()
