@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Phaba\Migrations\Input;
 
-
 use Phaba\Migrations\Core\Input\Input;
 
 class CommandLineInputImp implements Input
@@ -13,7 +12,7 @@ class CommandLineInputImp implements Input
 
     public function __construct(array $argv = null)
     {
-        if($argv === null){
+        if ($argv === null) {
             $argv = $_SERVER['argv'];
         }
 
@@ -21,7 +20,7 @@ class CommandLineInputImp implements Input
 
         $this->args = $argv;
 
-        if (!count($this->args)){
+        if (!count($this->args)) {
             $this->setDefaults();
         }
     }
