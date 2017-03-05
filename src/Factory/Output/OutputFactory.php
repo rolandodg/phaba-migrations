@@ -10,13 +10,5 @@ use Phaba\Migrations\Output\Output;
 
 abstract class OutputFactory
 {
-    public function createOutput(string $type): Output
-    {
-        switch ($type){
-            case Output::TYPE_COMMANDLINE:
-                $printer = new CommandLineOutputPrinterImp();
-                return new CommandLineOutputImp($printer);
-                break;
-        }
-    }
+    abstract public function createOutput(): Output;
 }
