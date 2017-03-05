@@ -9,6 +9,22 @@ use Phaba\Migrations\Output\CommandLineOutputPrinterImp;
 
 class CommandLineOutputPrinterImpTest extends TestCase
 {
+
+    /**
+     * @dataProvider outputProvider
+     */
+    public function testCanPrintString($output): void
+    {
+        $outputPrinter = $this->createPrinter();
+        $this->expectOutputString(implode('\n', $output).'\n');
+        $outputPrinter->print($output);
+    }
+
+    private function createPrinter(): CommandLineOutputPrinterImp
+    {
+        return new CommandLineOutputPrinterImp();
+    }
+
     public function outputProvider()
     {
         return [
@@ -27,15 +43,5 @@ class CommandLineOutputPrinterImpTest extends TestCase
                 [1.2,3.4,4.5,6.7]
             ]
         ];
-    }
-
-    /**
-     * @dataProvider outputProvider
-     */
-    public function testCanPrintString($output): void
-    {
-        $outputPrinter = new CommandLineOutputPrinterImp();
-        $this->expectOutputString(implode('\n', $output).'\n');
-        $outputPrinter->print($output);
     }
 }
