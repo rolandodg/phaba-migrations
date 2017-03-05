@@ -8,7 +8,7 @@ class CommandLineOutputPrinterImp implements OutputPrinter
 {
     public function print(array $content): void
     {
-        foreach ($content as $line){
+        foreach ($content as $line) {
             echo $line.'\n';
         }
     }

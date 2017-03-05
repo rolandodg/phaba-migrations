@@ -2,8 +2,7 @@
 
 namespace Phaba\Migrations\Core\Input;
 
-
-Interface Input
+interface Input
 {
-    function setDefaults();
+
 }
