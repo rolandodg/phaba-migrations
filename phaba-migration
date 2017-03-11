@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+require __DIR__."/autoload.php";
+
+use Phaba\Migrations\Input\CommandLineArguments;
+use Phaba\Migrations\Application\Application;
+
+$arguments = new CommandLineArguments();
+
+$app = new Application();
+try{
+    $app->run($arguments);
+}catch(Exception $e){
+    echo $e->getMessage();
+}
+
