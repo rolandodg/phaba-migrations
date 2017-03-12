@@ -9,4 +9,5 @@ use Phaba\Migrations\Output\Output;
 abstract class OutputFactory
 {
     abstract public function createOutput(): Output;
+    abstract public function createOutputWithContent(array $content): Output;
 }
