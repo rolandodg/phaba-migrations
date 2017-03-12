@@ -4,24 +4,52 @@ declare(strict_types=1);
 
 namespace Phaba\Migrations\Tests\Factory\Output;
 
-
-
 use Phaba\Migrations\Factory\Output\CommandLineOutputFactory;
-use Phaba\Migrations\Factory\Output\OutputFactory;
 use Phaba\Migrations\Output\CommandLineOutputImp;
+use Phaba\Migrations\Output\CommandLineOutputPrinterImp;
 use PHPUnit\Framework\TestCase;
+use ReflectionObject;
 
 class CommandLineOutputFactoryTest extends TestCase
 {
-    public function testCanCreateCommandLineOutput()
+    public function testCanCreateCommandLineOutput(): void
     {
-        $outputFactory = $this->createOutputFactory();
+        $outputFactory = new CommandLineOutputFactory();
         $output = $outputFactory->createOutput();
+
         $this->assertInstanceOf(CommandLineOutputImp::class, $output);
     }
 
-    public function createOutputFactory(): OutputFactory
+    public function testCanInjectPrinterWhenCreatingCommandLineOutput(): void
     {
-        return new CommandLineOutputFactory();
+        $outputFactory = new CommandLineOutputFactory();
+        $output = $outputFactory->createOutput();
+
+        $this->assertInstanceOf(CommandLineOutputPrinterImp::class, $this->makePropertyAccessible($output, 'printer'));
+    }
+
+    public function testCanCreateCommandLineOutputWithContent(): void
+    {
+        $outputFactory = new CommandLineOutputFactory();
+        $output = $outputFactory->createOutputWithContent(array());
+
+        $this->assertInstanceOf(CommandLineOutputImp::class, $output);
+    }
+
+    public function testCanInjectPrinterWhenCreatingCommandLineOutputWithContent(): void
+    {
+        $outputFactory = new CommandLineOutputFactory();
+        $output = $outputFactory->createOutputWithContent(array());
+
+        $this->assertInstanceOf(CommandLineOutputPrinterImp::class, $this->makePropertyAccessible($output, 'printer'));
+    }
+
+    private function makePropertyAccessible($object, string $name)
+    {
+        $reflectionObj = new ReflectionObject($object);
+        $property = $reflectionObj->getProperty($name);
+        $property->setAccessible(true);
+
+        return $property->getValue($object);
     }
 }
