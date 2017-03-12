@@ -24,7 +24,7 @@ class CommandLineInputImpTest extends TestCase
         }
     }
 
-    private function getNotAccesiblePropertyValue($object, string $name)
+    private function makePropertyAccessible($object, string $name)
     {
         $reflectionObj = new ReflectionObject($object);
         $property = $reflectionObj->getProperty($name);
@@ -40,7 +40,7 @@ class CommandLineInputImpTest extends TestCase
 
         $commandLineInput = new CommandLineInputImp();
 
-        $this->assertEquals('help', $this->getNotAccesiblePropertyValue($commandLineInput, 'args')[0]);
+        $this->assertEquals('help', $this->makePropertyAccessible($commandLineInput, 'args')[0]);
     }
 
     public function testCanBeCreatedWithoutArguments(): void
@@ -48,20 +48,20 @@ class CommandLineInputImpTest extends TestCase
         $this->setGlobalServerArguments('phaba-migration', 'createTMNT', array('-m', '--michelangelo'));
         $commandLineInput = new CommandLineInputImp();
 
-        $this->assertEquals('createTMNT', $this->getNotAccesiblePropertyValue($commandLineInput, 'args')[0]);
+        $this->assertEquals('createTMNT', $this->makePropertyAccessible($commandLineInput, 'args')[0]);
     }
 
     public function testCanBeCreatedWithArguments(): void
     {
         $commandLineInput = new CommandLineInputImp(array('phaba-migration','createTMNT', '-m', '--michelangelo'));
 
-        $this->assertEquals('createTMNT', $this->getNotAccesiblePropertyValue($commandLineInput, 'args')[0]);
+        $this->assertEquals('createTMNT', $this->makePropertyAccessible($commandLineInput, 'args')[0]);
     }
 
     public function testCanGetFirstArgument(): void
     {
         $firstArgument = 'createTMNT';
         $commandLineInput = new CommandLineInputImp(array('phaba-migration', $firstArgument, '-d'));
-        $this->assertEquals($firstArgument, $this->getNotAccesiblePropertyValue($commandLineInput, 'args')[0]);
+        $this->assertEquals($firstArgument, $this->makePropertyAccessible($commandLineInput, 'args')[0]);
     }
 }
