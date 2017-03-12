@@ -8,10 +8,22 @@ use Phaba\Migrations\Factory\Output\CommandLineOutputFactory;
 use Phaba\Migrations\Output\CommandLineOutputImp;
 use Phaba\Migrations\Output\CommandLineOutputPrinterImp;
 use PHPUnit\Framework\TestCase;
-use ReflectionObject;
+use Phaba\Migrations\Tests\TestHelper\AccessibilityTestHelper;
 
 class CommandLineOutputFactoryTest extends TestCase
 {
+    /**
+     * @var AccessibilityTestHelper
+     */
+    private $accessibilityHelper;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->accessibilityHelper = new AccessibilityTestHelper();
+    }
+
     public function testCanCreateCommandLineOutput(): void
     {
         $outputFactory = new CommandLineOutputFactory();
@@ -25,7 +37,10 @@ class CommandLineOutputFactoryTest extends TestCase
         $outputFactory = new CommandLineOutputFactory();
         $output = $outputFactory->createOutput();
 
-        $this->assertInstanceOf(CommandLineOutputPrinterImp::class, $this->makePropertyAccessible($output, 'printer'));
+        $this->assertInstanceOf(
+            CommandLineOutputPrinterImp::class,
+            $this->accessibilityHelper->getNotAccessiblePropertyValue($output, 'printer')
+        );
     }
 
     public function testCanCreateCommandLineOutputWithContent(): void
@@ -41,15 +56,9 @@ class CommandLineOutputFactoryTest extends TestCase
         $outputFactory = new CommandLineOutputFactory();
         $output = $outputFactory->createOutputWithContent(array());
 
-        $this->assertInstanceOf(CommandLineOutputPrinterImp::class, $this->makePropertyAccessible($output, 'printer'));
-    }
-
-    private function makePropertyAccessible($object, string $name)
-    {
-        $reflectionObj = new ReflectionObject($object);
-        $property = $reflectionObj->getProperty($name);
-        $property->setAccessible(true);
-
-        return $property->getValue($object);
+        $this->assertInstanceOf(
+            CommandLineOutputPrinterImp::class,
+            $this->accessibilityHelper->getNotAccessiblePropertyValue($output, 'printer')
+        );
     }
 }

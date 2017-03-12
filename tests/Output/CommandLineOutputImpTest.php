@@ -3,13 +3,25 @@ declare(strict_types=1);
 
 namespace Phaba\Migrations\Tests\Output;
 
-use Phaba\Migrations\Factory\Output\CommandLineOutputFactory;
 use Phaba\Migrations\Output\CommandLineOutputImp;
 use Phaba\Migrations\Output\CommandLineOutputPrinterImp;
 use PHPUnit\Framework\TestCase;
+use Phaba\Migrations\Tests\TestHelper\AccessibilityTestHelper;
 
 class CommandLineOutputImpTest extends TestCase
 {
+    /**
+     * @var AccessibilityTestHelper
+     */
+    private $accessibilityHelper;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->accessibilityHelper = new AccessibilityTestHelper();
+    }
+
     public function createCommandLineOutput(CommandLineOutputPrinterImp $printer = null): CommandLineOutputImp
     {
         if ($printer === null) {
@@ -48,17 +60,8 @@ class CommandLineOutputImpTest extends TestCase
 
         $output = $this->createCommandLineOutput($printer);
 
-        $this->setNotAccessiblePropertyValue($output, 'content', ['Teenage Mutant Ninja turtle']);
+        $this->accessibilityHelper->setNotAccessiblePropertyValue($output, 'content', ['Teenage Mutant Ninja turtle']);
 
         $output->process();
-    }
-
-    public function setNotAccessiblePropertyValue($object, $property, $value): void
-    {
-        $reflectionOutput = new \ReflectionClass($object);
-
-        $property = $reflectionOutput->getProperty($property);
-        $property->setAccessible(true);
-        $property->setValue($object, $value);
     }
 }
