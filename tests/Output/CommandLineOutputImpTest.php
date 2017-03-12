@@ -51,7 +51,6 @@ class CommandLineOutputImpTest extends TestCase
         $this->setNotAccessiblePropertyValue($output, 'content', ['Teenage Mutant Ninja turtle']);
 
         $output->process();
-
     }
 
     public function setNotAccessiblePropertyValue($object, $property, $value): void
@@ -63,4 +62,3 @@ class CommandLineOutputImpTest extends TestCase
         $property->setValue($object, $value);
     }
 }
-
