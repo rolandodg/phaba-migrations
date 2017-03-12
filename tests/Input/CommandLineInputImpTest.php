@@ -6,6 +6,7 @@ namespace Phaba\Migrations\Tests\Input;
 
 use Phaba\Migrations\Input\CommandLineInputImp;
 use PHPUnit\Framework\TestCase;
+use ReflectionObject;
 
 class CommandLineInputImpTest extends TestCase
 {
@@ -23,6 +24,15 @@ class CommandLineInputImpTest extends TestCase
         }
     }
 
+    private function getNotAccesiblePropertyValue($object, string $name)
+    {
+        $reflectionObj = new ReflectionObject($object);
+        $property = $reflectionObj->getProperty($name);
+        $property->setAccessible(true);
+
+        return $property->getValue($object);
+    }
+
 
     public function testCanBeCreatedWithDefaultValues(): void
     {
@@ -30,7 +40,7 @@ class CommandLineInputImpTest extends TestCase
 
         $commandLineInput = new CommandLineInputImp();
 
-        $this->assertEquals('help', $commandLineInput->getFirstArgument());
+        $this->assertEquals('help', $this->getNotAccesiblePropertyValue($commandLineInput, 'args')[0]);
     }
 
     public function testCanBeCreatedWithoutArguments(): void
@@ -38,20 +48,20 @@ class CommandLineInputImpTest extends TestCase
         $this->setGlobalServerArguments('phaba-migration', 'createTMNT', array('-m', '--michelangelo'));
         $commandLineInput = new CommandLineInputImp();
 
-        $this->assertEquals('createTMNT', $commandLineInput->getFirstArgument());
+        $this->assertEquals('createTMNT', $this->getNotAccesiblePropertyValue($commandLineInput, 'args')[0]);
     }
 
     public function testCanBeCreatedWithArguments(): void
     {
         $commandLineInput = new CommandLineInputImp(array('phaba-migration','createTMNT', '-m', '--michelangelo'));
 
-        $this->assertEquals('createTMNT', $commandLineInput->getFirstArgument());
+        $this->assertEquals('createTMNT', $this->getNotAccesiblePropertyValue($commandLineInput, 'args')[0]);
     }
 
     public function testCanGetFirstArgument(): void
     {
         $firstArgument = 'createTMNT';
         $commandLineInput = new CommandLineInputImp(array('phaba-migration', $firstArgument, '-d'));
-        $this->assertEquals($firstArgument, $commandLineInput->getFirstArgument());
+        $this->assertEquals($firstArgument, $this->getNotAccesiblePropertyValue($commandLineInput, 'args')[0]);
     }
 }
