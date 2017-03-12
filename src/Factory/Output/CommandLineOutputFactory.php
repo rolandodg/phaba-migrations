@@ -15,4 +15,13 @@ class CommandLineOutputFactory extends OutputFactory
         $printer = new CommandLineOutputPrinterImp();
         return new CommandLineOutputImp($printer);
     }
+
+    public function createOutputWithContent(array $content): Output
+    {
+        $printer = new CommandLineOutputPrinterImp();
+        $command = new CommandLineOutputImp($printer);
+        $command->setContent($content);
+
+        return $command;
+    }
 }
