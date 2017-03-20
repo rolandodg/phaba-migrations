@@ -9,26 +9,32 @@ use Symfony\Component\Yaml\Yaml;
 
 class ConfigurationReader
 {
+    const CONFIG_PATH = 'app/config';
+
     /**
-     * @var string
+     * @var array
      */
-    private $configPath;
+    private $currentConfig;
 
     public function __construct()
     {
-        $this->configPath = 'app/config';
+        $this->currentConfig = $this->getCurrentConfigurationArray();
+    }
+
+    private function getCurrentConfigurationArray()
+    {
+        $commonConfig = Yaml::parse(file_get_contents(self::CONFIG_PATH.'/config.yaml'));
+        $environmentConfig = Yaml::parse(file_get_contents(self::CONFIG_PATH.'/config_'.ENVIRONMENT.'.yaml'));
+
+        return array_merge($commonConfig, $environmentConfig);
     }
 
     public function getElement(string $name)
     {
-        $commonConfig = Yaml::parse(file_get_contents($this->configPath.'/config.yaml'));
-        $environmentConfig = Yaml::parse(file_get_contents($this->configPath.'/config_'.ENVIRONMENT.'.yaml'));
-        $currentConfig = array_merge($commonConfig, $environmentConfig);
-
-        if (!array_key_exists($name, $currentConfig)) {
+        if (!array_key_exists($name, $this->currentConfig)) {
             throw new InvalidElementException("Invalid $name Element in common configuration");
         }
 
-        return $currentConfig[$name];
+        return $this->currentConfig[$name];
     }
 }
