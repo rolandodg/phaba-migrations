@@ -7,6 +7,7 @@ namespace Phaba\Migrations\Tests\Core;
 use Phaba\Migrations\Core\ConfigurationReader;
 use Phaba\Migrations\Core\Exception\InvalidElementException;
 use Phaba\Migrations\Tests\TestHelper\AccessibilityTestHelper;
+use Phaba\Migrations\Tests\TestHelper\ConfigurationTestHelper;
 use PHPUnit\Framework\TestCase;
 
 class ConfigurationReaderTest extends TestCase
@@ -31,27 +32,26 @@ class ConfigurationReaderTest extends TestCase
 
     public function testCanGetCommonConfiguration(): void
     {
-        $this->setTestConfigurationFilePath();
+        $configHelper = new ConfigurationTestHelper();
+        $configHelper->setTestConfigurationFilePath($this->config);
+
         $this->assertEquals('2ML2010', $this->config->getElement('common')['text']);
     }
 
     public function testCanGetTestConfiguration(): void
     {
-        $this->setTestConfigurationFilePath();
+        $configHelper = new ConfigurationTestHelper();
+        $configHelper->setTestConfigurationFilePath($this->config);
+
         $this->assertEquals('2ML2010Test', $this->config->getElement('testing')['text']);
     }
 
     public function testThrowExceptionWhenElementDoesNotExist(): void
     {
-        $this->setTestConfigurationFilePath();
+        $configHelper = new ConfigurationTestHelper();
+        $configHelper->setTestConfigurationFilePath($this->config);
 
         $this->expectException(InvalidElementException::class);
         $this->config->getElement('FakeElement');
-    }
-
-    public function setTestConfigurationFilePath(): void
-    {
-        $accessHelper = new AccessibilityTestHelper();
-        $accessHelper->setNotAccessiblePropertyValue($this->config, 'configPath', 'tests/app/config');
     }
 }
