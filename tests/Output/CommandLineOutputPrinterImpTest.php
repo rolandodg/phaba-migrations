@@ -15,14 +15,9 @@ class CommandLineOutputPrinterImpTest extends TestCase
      */
     public function testCanPrintString($output): void
     {
-        $outputPrinter = $this->createPrinter();
+        $outputPrinter = new CommandLineOutputPrinterImp();
         $this->expectOutputString(implode('\n', $output).'\n');
         $outputPrinter->print($output);
-    }
-
-    private function createPrinter(): CommandLineOutputPrinterImp
-    {
-        return new CommandLineOutputPrinterImp();
     }
 
     public function outputProvider()
