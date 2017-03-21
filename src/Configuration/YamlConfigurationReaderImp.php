@@ -2,29 +2,34 @@
 
 declare(strict_types=1);
 
-namespace Phaba\Migrations\Core;
+namespace Phaba\Migrations\Configuration;
 
+use Phaba\Migrations\Core\Configuration\ConfigurationReader;
 use Phaba\Migrations\Core\Exception\InvalidElementException;
 use Symfony\Component\Yaml\Yaml;
 
-class ConfigurationReader
+class YamlConfigurationReaderImp implements ConfigurationReader
 {
-    const CONFIG_PATH = 'app/config';
+    /**
+     * @var string
+     */
+    private $configPath;
 
     /**
      * @var array
      */
     private $currentConfig;
 
-    public function __construct()
+    public function __construct(string $configurationPath)
     {
+        $this->configPath = $configurationPath;
         $this->currentConfig = $this->getCurrentConfigurationArray();
     }
 
     private function getCurrentConfigurationArray()
     {
-        $commonConfig = Yaml::parse(file_get_contents(self::CONFIG_PATH.'/config.yaml'));
-        $environmentConfig = Yaml::parse(file_get_contents(self::CONFIG_PATH.'/config_'.ENVIRONMENT.'.yaml'));
+        $commonConfig = Yaml::parse(file_get_contents($this->configPath.'/config.yaml'));
+        $environmentConfig = Yaml::parse(file_get_contents($this->configPath.'/config_'.ENVIRONMENT.'.yaml'));
 
         return array_merge($commonConfig, $environmentConfig);
     }
