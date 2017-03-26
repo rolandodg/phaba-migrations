@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Phaba\Migrations\File;
 
+use Phaba\Migrations\Core\Output\Output;
 use Phaba\Migrations\Factory\Output\CommandLineOutputFactory;
-use Phaba\Migrations\Output\Output;
 use PHPUnit\Framework\Exception;
 
 class MigrationFileGenerator

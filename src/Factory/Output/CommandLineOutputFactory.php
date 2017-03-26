@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Phaba\Migrations\Factory\Output;
 
+use Phaba\Migrations\Core\Output\Output;
 use Phaba\Migrations\Output\CommandLineOutputImp;
 use Phaba\Migrations\Output\CommandLineOutputPrinterImp;
-use Phaba\Migrations\Output\Output;
 
 class CommandLineOutputFactory extends OutputFactory
 {

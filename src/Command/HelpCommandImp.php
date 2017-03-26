@@ -5,7 +5,7 @@ namespace Phaba\Migrations\Command;
 use Phaba\Migrations\Command\Command;
 use Phaba\Migrations\Input\CommandLineArguments;
 use InvalidArgumentException;
-use Phaba\Migrations\Output\Output;
+use Phaba\Migrations\Core\Output\Output;
 
 class HelpCommandImp implements Command
 {

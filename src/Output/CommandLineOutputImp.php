@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Phaba\Migrations\Output;
 
+use Phaba\Migrations\Core\Output\Output;
+
 class CommandLineOutputImp implements Output
 {
     /**
