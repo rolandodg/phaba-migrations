@@ -1,0 +1,2 @@
+file_generator:
+    migration_files_path: tests/MigrationsVersionsFakeFiles

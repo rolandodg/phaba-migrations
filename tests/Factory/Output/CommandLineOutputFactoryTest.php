@@ -4,24 +4,61 @@ declare(strict_types=1);
 
 namespace Phaba\Migrations\Tests\Factory\Output;
 
-
-
 use Phaba\Migrations\Factory\Output\CommandLineOutputFactory;
-use Phaba\Migrations\Factory\Output\OutputFactory;
 use Phaba\Migrations\Output\CommandLineOutputImp;
+use Phaba\Migrations\Output\CommandLineOutputPrinterImp;
 use PHPUnit\Framework\TestCase;
+use Phaba\Migrations\Tests\TestHelper\AccessibilityTestHelper;
 
 class CommandLineOutputFactoryTest extends TestCase
 {
-    public function testCanCreateCommandLineOutput()
+    /**
+     * @var AccessibilityTestHelper
+     */
+    private $accessibilityHelper;
+
+    public function setUp()
     {
-        $outputFactory = $this->createOutputFactory();
+        parent::setUp();
+
+        $this->accessibilityHelper = new AccessibilityTestHelper();
+    }
+
+    public function testCanCreateCommandLineOutput(): void
+    {
+        $outputFactory = new CommandLineOutputFactory();
         $output = $outputFactory->createOutput();
+
         $this->assertInstanceOf(CommandLineOutputImp::class, $output);
     }
 
-    public function createOutputFactory(): OutputFactory
+    public function testCanInjectPrinterWhenCreatingCommandLineOutput(): void
     {
-        return new CommandLineOutputFactory();
+        $outputFactory = new CommandLineOutputFactory();
+        $output = $outputFactory->createOutput();
+
+        $this->assertInstanceOf(
+            CommandLineOutputPrinterImp::class,
+            $this->accessibilityHelper->getNotAccessiblePropertyValue($output, 'printer')
+        );
+    }
+
+    public function testCanCreateCommandLineOutputWithContent(): void
+    {
+        $outputFactory = new CommandLineOutputFactory();
+        $output = $outputFactory->createOutputWithContent(array());
+
+        $this->assertInstanceOf(CommandLineOutputImp::class, $output);
+    }
+
+    public function testCanInjectPrinterWhenCreatingCommandLineOutputWithContent(): void
+    {
+        $outputFactory = new CommandLineOutputFactory();
+        $output = $outputFactory->createOutputWithContent(array());
+
+        $this->assertInstanceOf(
+            CommandLineOutputPrinterImp::class,
+            $this->accessibilityHelper->getNotAccessiblePropertyValue($output, 'printer')
+        );
     }
 }

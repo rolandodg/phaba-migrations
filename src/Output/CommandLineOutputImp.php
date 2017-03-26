@@ -21,14 +21,19 @@ class CommandLineOutputImp implements Output
         $this->printer = $printer;
     }
 
-    public function setContent(array $content): CommandLineOutputImp
+    public function process(): void
+    {
+        $this->printer->print($this->content);
+    }
+
+    public function setContent(array $content): Output
     {
         $this->content = $content;
         return $this;
     }
 
-    public function process(): void
+    public function getContent(): array
     {
-        $this->printer->print($this->content);
+        return $this->content;
     }
 }

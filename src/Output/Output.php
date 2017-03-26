@@ -7,4 +7,6 @@ namespace Phaba\Migrations\Output;
 interface Output
 {
     public function process(): void;
+    public function getContent(): array;
+    public function setContent(array $content): Output;
 }
