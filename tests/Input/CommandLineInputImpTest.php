@@ -42,7 +42,10 @@ class CommandLineInputImpTest extends TestCase
 
         $commandLineInput = new CommandLineInputImp();
 
-        $this->assertEquals('help', $this->accessibilityHelper->getNotAccessiblePropertyValue($commandLineInput, 'args')[0]);
+        $this->assertEquals(
+            'help',
+            $this->accessibilityHelper->getNotAccessiblePropertyValue($commandLineInput, 'args')[0]
+        );
     }
 
     public function testCanBeCreatedWithoutArguments(): void

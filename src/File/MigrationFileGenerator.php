@@ -52,7 +52,9 @@ class MigrationFileGenerator
         } else {
             $this->output->setContent(
                 array(
-                    'Cannot create migration file '.$this->generateFileName($now).".php. File already exists in $this->path")
+                    'Cannot create migration file '.$this->generateFileName($now).
+                        ".php. File already exists in $this->path"
+                )
             );
         }
     }
